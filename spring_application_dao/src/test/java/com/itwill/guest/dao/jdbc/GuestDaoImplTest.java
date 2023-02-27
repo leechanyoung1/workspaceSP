@@ -41,9 +41,10 @@ class GuestDaoImplTest {
 	@Test
 	void testInsertGuest() throws Exception{
 		Guest insertGuest=
-				new Guest(0, "dkdkdkdkdkdkdkdkdkdkdkdkdkdkd", null,"test@gmail.com", "test.com", "타이틀", "컨텐트");
+				new Guest(0, "dfkdkdkdkdkdkdkd", null,"test@gmail.com", "test.com", "타이틀", "컨텐트");
 		assertEquals(guestDao.insertGuest(insertGuest), 1);
 		System.out.println("11111111111111111111111111111"+insertGuest);
+		
 	}
 	@Disabled
 	@Test
