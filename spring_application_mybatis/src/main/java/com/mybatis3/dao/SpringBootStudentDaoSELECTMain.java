@@ -1,10 +1,12 @@
 package com.mybatis3.dao;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
+@MapperScan(basePackages = "com.mybatis3.dao.mapper")
 public class SpringBootStudentDaoSELECTMain {
 	public static void main(String[] args) {
 		ApplicationContext appicationContext=
