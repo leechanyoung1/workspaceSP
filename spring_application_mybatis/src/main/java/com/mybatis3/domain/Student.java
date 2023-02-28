@@ -9,7 +9,7 @@ EMAIL   NOT NULL VARCHAR2(50)
 PHONE            VARCHAR2(15) 
 DOB              DATE         
 ADDR_ID          NUMBER(11)         
-  
+ 
 */
 public class Student
 {

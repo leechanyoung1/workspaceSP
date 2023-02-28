@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mybatis3.dao.mapper.StudentMapper">
+	<!-- ########################resultMap 정의################################# -->
+	<resultMap id="studentWithAddressResultMap" type="com.mybatis3.domain.Student" autoMapping="true" >
+		<!--  
+		<result column="STUD_ID" property="studId"  />
+		<result column="NAME" property="name"  />
+		<result column="EMAIL" property="email"  />
+		<result column="DOB" property="dob"  />
+		-->
+		<association property="address" javaType="com.mybatis3.domain.Address" autoMapping="true">
+		<!--  
+			<result column="ADDR_ID" property="addrId" />
+			<result column="STREET" property="street" />
+			<result column="CITY" property="city" />
+			<result column="STATE" property="state" />
+			<result column="ZIP" property="zip" />
+			<result column="CONUTRY" property="country" />
+			-->
+		</association>
+	</resultMap>
+	<resultMap id="studentWithCoursesResultMap" type="com.mybatis3.domain.Student" autoMapping="true">
+			<result column="STUDENT_NAME" property="name"/>
+		
+		<collection property="courseList" javaType="java.util.List" ofType="com.mybatis3.domain.Course" autoMapping="true">
+			<result column="COURSE_NAME" property="name"/>
+		
+		</collection>
+	
+	
+	</resultMap>
+	
+	
+	
+	
+	<!-- ####################################################################### -->
+	
 	<!-- 
 	/**************************************************
 	 * SELECT
@@ -34,11 +69,40 @@
 	 
 	 
 	 </select>
+	 <!-- 
+	 /**************************************************
+	 * SELECT[studetns+address JOIN](1:1)
+	 **************************************************/
+	 /*
+	 * A.select sql의결과타입이 DTO,VO,Domain객체인경우 resultType : DTO,VO,Domain
+	 *resultMap:
+	 */
+	  -->
+	 <select id="findStudentByIdWithAddress" parameterType="java.lang.Integer" resultMap="studentWithAddressResultMap">
+		select stud_id, name, email,phone,dob, a.addr_id, street, city, state, zip, country
+		FROM students s 
+		left outer join addresses a 
+		on s.addr_id=a.addr_id where stud_id=#{studId}
 	 
-	 
-	 
-	 
-	 
+	 </select>
+	 <!--  
+	 /**************************************************
+	 * SELECT[students + courses[course_enrollment] JOIN( 1 : N )
+	 **************************************************/
+	/*
+	 * select sql의결과타입이 DTO,VO,Domain객체인경우 resultMap : studentWithCoursesResultMap
+	 */
+	 -->
+	 <!--  
+	 <select id="findStudentByIdWithCourses" parameterType="java.lang.Integer" resultMap="studentWithCoursesResultMap">
+	 select s.stud_id,s.name as student_name,email,dob,c.course_id,c.name as course_name,c.description,c.start_date,c.end_date 
+		from students s 
+		join course_enrollment ce
+		on s.stud_id = ce.stud_id
+		join courses c
+		on ce.course_id=c.course_id where s.stud_id=#{studId}
+		</select>
+		-->
 	<!-- 
 	/**************************************************
 						INSERT
@@ -52,14 +116,14 @@
 	<insert id="insertStudentBySequence1" parameterType="com.mybatis3.domain.Student">
 		insert into students(stud_id,name,email,dob) values(students_stud_id_seq.nextval,#{name},#{email},#{dob})
 	</insert>
-	
+	<!-- 
 	<insert id="insertStudentBySequence2" parameterType="com.mybatis3.domain.Student">
 	<selectKey order="BEFORE" resultType="int" keyProperty="studId">
 		select students_stud_id_seq.nextval from dual
 	</selectKey>
 		insert into students(stud_id,name,email,dob) values(#{studId},#{name},#{email},#{dob})
 	</insert>
-	
+	-->
 	<!-- 
 	/**************************************************
 						UPDATE
@@ -85,6 +149,21 @@
 	
 	
 	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

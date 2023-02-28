@@ -4,20 +4,21 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import com.mybatis3.dao.mapper.TutorDao;
 import com.mybatis3.domain.Student;
+import com.mybatis3.domain.Tutor;
 
 @SpringBootApplication
-public class SpringBootStudentDaoJOINSELECTMain {
+public class SpringBootTutorDaoJOINSELECTMain {
 	public static void main(String[] args) {
 		ApplicationContext appicationContext=
-				SpringApplication.run(SpringBootStudentDaoJOINSELECTMain.class, args);
-		StudentDao studentDao=(StudentDao)appicationContext.getBean(StudentDao.class);
-		System.out.println("---------findStudentByIdWithAddress------------------");
-		Student student= studentDao.findStudentByIdWithAddress(1);
-		System.out.println(student);
+				SpringApplication.run(SpringBootTutorDaoJOINSELECTMain.class, args);
+		TutorDao tutorDao=(TutorDao)appicationContext.getBean(TutorDao.class);
+		
 		System.out.println("---------findStudentByIdWithCourses------------------");
+		System.out.println(tutorDao.findTutorByWithCourses(1));
 		System.out.println("---------findStudentByIdWithAddressWithCourses-------");
-		System.out.println(studentDao.findStudentByIdWithCourses(1));
+		System.out.println(tutorDao.findTutorByWithCourses(1));
 		
 		
 		
