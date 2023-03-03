@@ -10,9 +10,6 @@ public class SpringBootGuestApplication {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SpringBootGuestApplication.class, args);
-		GuestDao guestDao = new GuestDaoImpl();
 		
-		System.out.println(guestDao.selectAll());
 	}
-
 }
