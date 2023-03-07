@@ -67,9 +67,9 @@ public class User {
 	 *패쓰워드 일치여부 검사 
 	 */
 	public boolean isMatchPassword(String password){
-		boolean isMatch=false;
+		boolean isMatch=true;
 		if(this.password.equals(password)){
-			isMatch=true;
+			isMatch=false;
 		}
 		return isMatch;
 	}
