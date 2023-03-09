@@ -7,9 +7,9 @@ function ajaxRequest(method,url,params,callbackFunction){
 	
 	xhr.open(method,url,true);
 	xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xhr.send((method=='POST')?param:null);
 	xhr.onload=function(){
 		callbackFunction(xhr);
 	};
-	xhr.send((method=='POST')?param:null);
 	
 }

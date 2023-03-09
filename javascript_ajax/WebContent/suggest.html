@@ -31,7 +31,7 @@
 		ajaxRequest('GET','suggest.jsp','keyword='+keyword,responseKeyword);
 	}
 	function responseKeyword(xhr){
-		
+		console.log(xhr);
 		let jsonObject =JSON.parse(xhr.responseText);
 		/*
 		{
