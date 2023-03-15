@@ -22,6 +22,14 @@
 			window.onload=function(e){
 				/*****dom tree생성후 랜더링전 dom node찾기******/
 				//document.getElementsByTagName("div");
+				let divElementList =document.querySelectorAll("p");
+				for(let i = 0;i<divElementList.length ; i++) {
+					divElementList[i].style.background='pink';
+					
+				}
+				
+				let divElement =document.querySelector("div");
+				divElement.style.border = "5px dotted blue";
 				
 			};
 			

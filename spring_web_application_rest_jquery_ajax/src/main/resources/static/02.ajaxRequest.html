@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	$('#id').keyup(function(e){
+		let idStr=$(e.target).val().trim();
+		if(idStr==''){
+			return;
+		}
+		/*
+		jQuery ajax요청
+		*/
+		let param = 'id='+idStr;
+		$.ajax({
+			url:'02.ajaxRequest',
+			method:'GET',
+			data:param,
+			dataType:'text',
+			beforeSend:function(){
+				$('msg').html("<img src='loading.gif' width='20px' height='20px'>")
+			},
+			success:function(responseData,textStatus,xhr){
+				if(responseData.trim()=='사용가능'){
+				$('#msg').html(responseData.trim()).css('color','green');
+				}else{
+				$('#msg').html(responseData.trim()).css('color','red');
+				}
+			}
+			
+		});
+		
+	})
+})		
+	
+</script>
+</head>
+<body>
+<h1>ajax요청</h1><hr/>
+<form name="f" id="f" action="">
+	아이디:<input type="text" name="id" id="id"  >
+	<span id="msg"></span>
+</form>
+
+<pre>
+ page기반요청
+    1. submit버튼클릭[form.submit()]
+    2. anchor tag 클릭
+    3. location.href=''
+    요청-->기존페이지 DOM Tree 제거(UI사라짐) -->응답(HTML) -->응답HTML로 DOM Tree 다시생성 --> UI렌더링
+ 
+ ajax 요청
+    1. XMLHttpRequest.send()메쏘드사용 
+    
+    요청-->기존페이지 DOM Tree 유지(UI안사라짐) -->응답데이타(text,html,json,xml) -->응답데이타 로 DOM Tree 일부변경 -->  일부UI 렌더링
+</pre>
+</body>
+</html>
+
+
+
+
+
+
+
