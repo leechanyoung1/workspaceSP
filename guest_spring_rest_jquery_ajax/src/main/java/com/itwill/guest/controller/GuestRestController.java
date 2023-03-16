@@ -31,60 +31,56 @@ import io.swagger.annotations.ApiOperation;
 public class GuestRestController {
 	@Autowired
 	private GuestService guestService;
-
 	@ApiOperation(value = "방명록리스트")
-	@GetMapping(value = "/guest", produces = "application/json;charset=UTF-8")
-	public Map<String, Object> guest_list() throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int code = 1;
-		String msg = "성공";
-		List<Guest> data = new ArrayList<Guest>();
+	@GetMapping(value = "/guest",produces = "application/json;charset=UTF-8")
+	public Map<String,Object> guest_list()throws Exception{
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		int code=1;
+		String msg="성공";
+		List<Guest> data=new ArrayList<Guest>();
 		data = guestService.selectAll();
-
+		
 		resultMap.put("code", code);
 		resultMap.put("msg", msg);
 		resultMap.put("data", data);
-
+		
 		return resultMap;
 	}
-
-	@GetMapping(value = "/guest/{guest_no}", produces = "application/json;charset=UTF-8")
-	public Map<String, Object> guest_detail(@PathVariable(value = "guest_no") int guest_no) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int code = 1;
-		String msg = "성공";
-		List<Guest> data = new ArrayList<Guest>();
-		Guest guest = guestService.selectByNo(guest_no);
-		if (guest != null) {
+	@GetMapping(value = "/guest/{guest_no}",produces = "application/json;charset=UTF-8")
+	public Map<String,Object> guest_detail(@PathVariable(value = "guest_no") int guest_no )throws Exception{
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		int code=1;
+		String msg="성공";
+		List<Guest> data=new ArrayList<Guest>();
+		
+		Guest guest=guestService.selectByNo(guest_no);
+		if(guest!=null) {
 			data.add(guest);
-
-		} else {
-			code = 2;
-			msg = "실패";
-
+		}else {
+			code=2;
+			msg="게시물이 존재하지않습니다.";
 		}
-
 		resultMap.put("code", code);
 		resultMap.put("msg", msg);
 		resultMap.put("data", data);
-
+		
 		return resultMap;
 	}
-
-	@PostMapping(value = "/guest", produces = "application/json;charset=UTF-8")
-	public Map<String, Object> guest_write_action(@RequestBody Guest guest) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int code = 1;
-		String msg = "성공";
-		List<Guest> data = new ArrayList<Guest>();
+	@PostMapping(value = "/guest",produces = "application/json;charset=UTF-8")
+	public Map<String,Object> guest_write_action(@RequestBody Guest guest){
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		int code=1;
+		String msg="성공";
+		List<Guest> data=new ArrayList<Guest>();
 		try {
 			guestService.insertGuest(guest);
-			code = 1;
-			msg = "성공";
+			code=1;
+			msg="성공";
+			guest =guestService.selectByNo(guest.getGuest_no());
 			data.add(guest);
 		} catch (Exception e) {
-			code = 2;
-			msg = "방명록쓰기실패";
+			code=2;
+			msg="방명록쓰기실패";
 			e.printStackTrace();
 		}
 		resultMap.put("code", code);
@@ -92,62 +88,59 @@ public class GuestRestController {
 		resultMap.put("data", data);
 		return resultMap;
 	}
-
 	@ApiOperation(value = "방명록수정")
-	@ApiImplicitParam(name = "guest_no", value = "방명록의번호")
+	@ApiImplicitParam(name="guest_no", value = "방명록의번호")
 	@PutMapping(value = "/guest/{guest_no}")
-	public Map<String, Object> guest_modify_action(@PathVariable("guest_no") int guest_no, @RequestBody Guest guest)
-			throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int code = 1;
-		String msg = "성공";
-		List<Guest> data = new ArrayList<Guest>();
-
-		Guest findguest = guestService.selectByNo(guest_no);
-		if (findguest != null) {
+	public Map<String,Object> guest_modify_action(@PathVariable("guest_no") int guest_no, @RequestBody Guest guest)throws Exception{
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		int code=1;
+		String msg="성공";
+		List<Guest> data=new ArrayList<Guest>();
+		
+		Guest findGuest=  guestService.selectByNo(guest_no);
+		if(findGuest!=null) {
 			guest.setGuest_no(guest_no);
 			guestService.updateGuest(guest);
-			code = 1;
-			msg = "";
+			code=1;
+			msg="";
 			data.add(guest);
-		} else {
-			code = 2;
-			msg = "실패";
+		}else {
+			code=2;
+			msg="방명록 수정실패";
 			data.add(guest);
-
 		}
-
 		resultMap.put("code", code);
 		resultMap.put("msg", msg);
 		resultMap.put("data", data);
-
+		
 		return resultMap;
 	}
-
+	@ApiOperation(value = "방명록삭제")
 	@DeleteMapping(value = "/guest/{guest_no}")
-	public Map<String, Object> guest_remove_action(@PathVariable(value = "guest_no") int guest_no) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		int code = 1;
-		String msg = "성공";
-		List<Guest> data = new ArrayList<Guest>();
+	public Map<String,Object> guest_remove_action(@PathVariable(value = "guest_no") int guest_no){
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		int code=1;
+		String msg="성공";
+		List<Guest> data=new ArrayList<Guest>();
 		try {
 			guestService.deleteGuest(guest_no);
-			msg = "";
-			code = 1;
+			code=1;
+			msg="";
+			
 		} catch (Exception e) {
-			code = 2;
-			Guest guest = new Guest();
-			guest.setGuest_no(guest_no);
-			data.add(guest);
-
-			msg = "방명록삭제실패";
+			code=2;
+			Guest failGuest=new Guest();
+			failGuest.setGuest_no(guest_no);
+			data.add(failGuest);
+			msg="방명록삭제실패";
 			e.printStackTrace();
 		}
-
+		
 		resultMap.put("code", code);
 		resultMap.put("msg", msg);
 		resultMap.put("data", data);
-
+		
 		return resultMap;
 	}
+	
 }
